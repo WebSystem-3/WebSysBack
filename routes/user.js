@@ -23,7 +23,27 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
+// account 동일한지 비교 후 password 비교
+router.post("/login", (req, res, next) => {
+  const sql = "select * from users where account= ?";
+  const params = [req.body.account];
+  db.query(sql, params, (err, results) => {
+    if (err) throw err;
 
+    if (results.length > 0) {
+      if (results[0].password === req.body.password) {
+        return res.status(200).json({
+          message: "로그인 성공했습니다.",
+          user_id: results[0].user_id,
+        });
+      } else {
+        return res.status(500).json({ message: "비밀번호가 다릅니다." });
+      }
+    } else {
+      return res.status(500).json({ message: "존재하지 않은 계정입니다." });
+    }
+  });
+});
 
 // 존재하는 account인지 여부 확인
 router.post("/validation", (req, res, next) => {
