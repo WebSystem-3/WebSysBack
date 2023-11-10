@@ -23,7 +23,9 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-// 존재하는 id인지 여부 확인
+
+
+// 존재하는 account인지 여부 확인
 router.post("/validation", (req, res, next) => {
   const sql = "select account from users where account=?";
   const params = [req.body.account];
