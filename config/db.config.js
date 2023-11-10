@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: "3306",
   user: "root",
-  password: "12345678", // 본인에 해당하는 password로 수정
+  password: "seo75840311", // 본인에 해당하는 password로 수정
   database: "websys",
 });
 
@@ -16,4 +16,5 @@ connection.connect((err) => {
     console.log("Mysql 연결 성공");
   }
 });
+
 module.exports = connection;
