@@ -7,7 +7,6 @@ router.get("/info/:id", (req, res, next) => {
   const sql = "select * from users where user_id=" + req.params.id;
   db.query(sql, (err, results) => {
     if (err) throw err;
-    console.log(results);
     res.json(results);
   });
 });
@@ -18,8 +17,9 @@ router.post("/signup", (req, res, next) => {
   const params = [req.body.account, req.body.password, req.body.name];
   db.query(sql, params, (err, results) => {
     if (err) throw err;
-    console.log(results);
-    res.json(results);
+    res.status(200).json({
+      message: "회원가입을 성공하였습니다."
+    })
   });
 });
 
