@@ -27,6 +27,7 @@ router.post("/signup", (req, res, next) => {
 router.post("/login", (req, res, next) => {
   const sql = "select * from users where account= ?";
   const params = [req.body.account];
+  console.log(req.body.account, req.body.password);
   db.query(sql, params, (err, results) => {
     if (err) throw err;
 
