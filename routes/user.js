@@ -90,7 +90,7 @@ router.patch("/edit/:user_id", (req, res, next) => {
 
 // 회원 탈퇴
 router.delete("/delete/:user_id", (req, res, next) => {
-  let sql = "select  * from users where user_id=" + req.params.id;
+  let sql = "select  * from users where user_id=" + req.params.user_id;
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
@@ -98,7 +98,7 @@ router.delete("/delete/:user_id", (req, res, next) => {
         .status(400)
         .json({ errorMessage: "계정이 존재하지 않습니다." });
     } else {
-      let sql = "delete from users where user_id=" + req.params.id;
+      let sql = "delete from users where user_id=" + req.params.user_id;
       db.query(sql, (err, results) => {
         if (err) throw err;
         return res.status(200).json({ message: "성공적으로 삭제되었습니다." });
