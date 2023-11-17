@@ -3,7 +3,7 @@ var router = express.Router();
 const db = require("../config/db.config.js");
 
 // 유저 정보 조회 (GET)
-router.get("/info/:id", (req, res, next) => {
+router.get("/info/:user_id", (req, res, next) => {
   const sql = "select * from users where user_id=" + req.params.id;
   db.query(sql, (err, results) => {
     if (err) throw err;
@@ -64,8 +64,8 @@ router.post("/validation", (req, res, next) => {
 });
 
 // 회원정보 수정 (patch)
-router.patch("/edit/:id", (req, res, next) => {
-  let sql = "select * from users where user_id=" + req.params.id;
+router.patch("/edit/:user_id", (req, res, next) => {
+  let sql = "select * from users where user_id=" + req.params.user_id;
   const body = [req.body.password, req.body.name];
   console.log(body);
   db.query(sql, (err, results) => {
@@ -76,7 +76,8 @@ router.patch("/edit/:id", (req, res, next) => {
         .json({ errorMessage: "계정이 존재하지 않습니다." });
     } else {
       let sql =
-        "update users set password = ?,name = ? where user_id=" + req.params.id;
+        "update users set password = ?,name = ? where user_id=" +
+        req.params.user_id;
       db.query(sql, body, (err, results) => {
         if (err) throw err;
         return res
@@ -88,7 +89,7 @@ router.patch("/edit/:id", (req, res, next) => {
 });
 
 // 회원 탈퇴
-router.delete("/delete/:id", (req, res, next) => {
+router.delete("/delete/:user_id", (req, res, next) => {
   let sql = "select  * from users where user_id=" + req.params.id;
   db.query(sql, (err, results) => {
     if (err) throw err;
@@ -105,4 +106,5 @@ router.delete("/delete/:id", (req, res, next) => {
     }
   });
 });
+
 module.exports = router;
