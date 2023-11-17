@@ -15,11 +15,12 @@ router.get("/info/:id", (req, res, next) => {
 router.post("/signup", (req, res, next) => {
   const sql = "insert into users (account, password, name) values (?, ?, ?)";
   const params = [req.body.account, req.body.password, req.body.name];
+  console.log(params);
   db.query(sql, params, (err, results) => {
     if (err) throw err;
     res.status(200).json({
-      message: "회원가입을 성공하였습니다."
-    })
+      message: "회원가입을 성공하였습니다.",
+    });
   });
 });
 
@@ -38,10 +39,10 @@ router.post("/login", (req, res, next) => {
           user_id: results[0].user_id,
         });
       } else {
-        return res.status(500).json({ message: "비밀번호가 다릅니다." });
+        return res.status(400).json({ errorMessage: "비밀번호가 다릅니다." });
       }
     } else {
-      return res.status(500).json({ message: "존재하지 않은 계정입니다." });
+      return res.status(400).json({ message: "존재하지 않은 계정입니다." });
     }
   });
 });
@@ -53,7 +54,9 @@ router.post("/validation", (req, res, next) => {
   db.query(sql, params, (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
-      return res.status(500).json({ message: "이미 사용중인 계정입니다." });
+      return res
+        .status(400)
+        .json({ errorMessage: "이미 사용중인 계정입니다." });
     } else {
       return res.status(200).json({ message: "사용 가능한 계정입니다." });
     }
@@ -64,10 +67,13 @@ router.post("/validation", (req, res, next) => {
 router.patch("/edit/:id", (req, res, next) => {
   let sql = "select * from users where user_id=" + req.params.id;
   const body = [req.body.password, req.body.name];
+  console.log(body);
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({ message: "계정이 존재하지 않습니다." });
+      return res
+        .status(400)
+        .json({ errorMessage: "계정이 존재하지 않습니다." });
     } else {
       let sql =
         "update users set password = ?,name = ? where user_id=" + req.params.id;
@@ -87,7 +93,9 @@ router.delete("/delete/:id", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({ message: "계정이 존재하지 않습니다." });
+      return res
+        .status(400)
+        .json({ errorMessage: "계정이 존재하지 않습니다." });
     } else {
       let sql = "delete from users where user_id=" + req.params.id;
       db.query(sql, (err, results) => {

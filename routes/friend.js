@@ -17,8 +17,8 @@ router.post("/:user_id1/friend/add/:user_id2", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({
-        message: "해당 하는 사용자가 존재하지 않습니다.",
+      return res.status(400).json({
+        errorMessage: "해당 하는 사용자가 존재하지 않습니다.",
       });
     }
   });
@@ -26,8 +26,8 @@ router.post("/:user_id1/friend/add/:user_id2", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({
-        message: "해당 하는 사용자가 존재하지 않습니다.",
+      return res.status(400).json({
+        errorMessage: "해당 하는 사용자가 존재하지 않습니다.",
       });
     }
   });
@@ -47,8 +47,8 @@ router.delete("/:user_id1/friend/delete/:user_id2", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({
-        message: "해당하는 사용자가 존재하지 않습니다.",
+      return res.status(400).json({
+        errorMessage: "해당하는 사용자가 존재하지 않습니다.",
       });
     }
   });
@@ -56,8 +56,8 @@ router.delete("/:user_id1/friend/delete/:user_id2", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({
-        message: "해당하는 사용자가 존재하지 않습니다.",
+      return res.status(400).json({
+        errorMessage: "해당하는 사용자가 존재하지 않습니다.",
       });
     }
   });
@@ -80,8 +80,8 @@ router.get("/:user_id1/friend/:user_id2/task", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({
-        message: "해당하는 사용자가 존재하지 않습니다.",
+      return res.status(400).json({
+        errorMessage: "해당하는 사용자가 존재하지 않습니다.",
       });
     }
   });
@@ -89,8 +89,8 @@ router.get("/:user_id1/friend/:user_id2/task", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({
-        message: "해당하는 사용자가 존재하지 않습니다.",
+      return res.status(400).json({
+        errorMessage: "해당하는 사용자가 존재하지 않습니다.",
       });
     }
   });

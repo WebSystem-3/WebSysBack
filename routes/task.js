@@ -22,7 +22,7 @@ router.post("/:user_id/task/add", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({ message: "존재하지 않는 id입니다." });
+      return res.status(400).json({ errorMessage: "존재하지 않는 id입니다." });
     } else {
       sql =
         "insert into tasks (user_id, task_name, task_time, task_date) values (?, ?, 0, ?)";
@@ -37,8 +37,8 @@ router.post("/:user_id/task/add", (req, res, next) => {
         if (err) throw err;
         if (results.length > 0) {
           return res
-            .status(500)
-            .json({ message: "task 등록에 실패하였습니다.." });
+            .status(400)
+            .json({ errorMessage: "task 등록에 실패하였습니다.." });
         } else {
           return res.status(200).json({ message: "task가 등록되었습니다." });
         }
@@ -54,7 +54,7 @@ router.patch("/:user_id/task/edit/:task_id", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({ message: "존재하지 않는 id입니다." });
+      return res.status(400).json({ errorMessage: "존재하지 않는 id입니다." });
     } else {
       sql = "update tasks set task_name=? where task_id=" + req.params.task_id;
 
@@ -64,8 +64,8 @@ router.patch("/:user_id/task/edit/:task_id", (req, res, next) => {
         if (err) throw err;
         if (results.length === 0) {
           return res
-            .status(500)
-            .json({ message: "등록된 task 수정을 실패하였습니다." });
+            .status(400)
+            .json({ errorMessage: "등록된 task 수정을 실패하였습니다." });
         } else {
           return res
             .status(200)
@@ -83,14 +83,16 @@ router.delete("/:user_id/task/delete/:task_id", (req, res, next) => {
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      return res.status(500).json({ message: "존재하지 않는 id입니다." });
+      return res.status(400).json({ errorMessage: "존재하지 않는 id입니다." });
     } else {
       sql = "delete from tasks where task_id=" + req.params.task_id;
 
       db.query(sql, (err, results) => {
         if (err) throw err;
         if (results.length === 0) {
-          return res.status(500).json({ message: "task가 존재하지 않습니다." });
+          return res
+            .status(400)
+            .json({ errorMessage: "task가 존재하지 않습니다." });
         } else {
           return res
             .status(200)
@@ -113,8 +115,8 @@ router.get("/:user_id/task/time", (req, res, next) => {
     if (err) throw err;
     if (results.length === 0) {
       return res
-        .status(500)
-        .json({ message: "색상 정보를 불러오는 데 실패하였습니다." });
+        .status(400)
+        .json({ errorMessage: "색상 정보를 불러오는 데 실패하였습니다." });
     } else {
       return res
         .status(200)
