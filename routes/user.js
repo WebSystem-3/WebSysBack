@@ -3,7 +3,7 @@ var router = express.Router();
 const db = require("../config/db.config.js");
 
 // 유저 정보 조회 (GET)
-router.get("/info/:user_id", (req, res, next) => {
+router.get("/:user_id", (req, res, next) => {
   const sql = "select * from users where user_id=" + req.params.id;
   db.query(sql, (err, results) => {
     if (err) throw err;
@@ -13,9 +13,26 @@ router.get("/info/:user_id", (req, res, next) => {
 
 //회원 가입
 router.post("/signup", (req, res, next) => {
-  const sql = "insert into users (account, password, name) values (?, ?, ?)";
-  const params = [req.body.account, req.body.password, req.body.name];
-  console.log(params);
+  let sql = "select account from users where account=?";
+  let params = [req.body.account];
+  db.query(sql, params, (err, results) => {
+    if (err) throw err;
+    if (results.length > 0) {
+      return res.status(400).json({
+        message: "이미 사용중인 계정입니다.",
+      });
+    } else {
+      sql = "insert into users (account, password, name) values (?, ?, ?)";
+      params = [req.body.account, req.body.password, req.body.name];
+      db.query(sql, params, (err, results) => {
+        if (err) throw err;
+        return res.status(200).json({
+          message: "회원 가입을 성공하였습니다.",
+        });
+      });
+    }
+  });
+
   db.query(sql, params, (err, results) => {
     if (err) throw err;
     res.status(200).json({
@@ -51,6 +68,7 @@ router.post("/login", (req, res, next) => {
 router.post("/validation", (req, res, next) => {
   const sql = "select account from users where account=?";
   const params = [req.body.account];
+  console.log(params);
   db.query(sql, params, (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
@@ -64,7 +82,7 @@ router.post("/validation", (req, res, next) => {
 });
 
 // 회원정보 수정 (patch)
-router.patch("/edit/:user_id", (req, res, next) => {
+router.patch("/:user_id", (req, res, next) => {
   let sql = "select * from users where user_id=" + req.params.user_id;
   const body = [req.body.password, req.body.name];
   console.log(body);
@@ -89,7 +107,7 @@ router.patch("/edit/:user_id", (req, res, next) => {
 });
 
 // 회원 탈퇴
-router.delete("/delete/:user_id", (req, res, next) => {
+router.delete("/:user_id", (req, res, next) => {
   let sql = "select  * from users where user_id=" + req.params.user_id;
   db.query(sql, (err, results) => {
     if (err) throw err;

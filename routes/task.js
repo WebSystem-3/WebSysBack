@@ -3,7 +3,7 @@ var router = express.Router();
 const db = require("../config/db.config.js");
 
 //task 조회
-router.get("/:user_id/task/info/:task_id", (req, res, next) => {
+router.get("/:user_id/task/:task_id", (req, res, next) => {
   let sql =
     "select * from tasks where user_id=" +
     req.params.user_id +
@@ -17,7 +17,7 @@ router.get("/:user_id/task/info/:task_id", (req, res, next) => {
 });
 
 //task 등록
-router.post("/:user_id/task/add", (req, res, next) => {
+router.post("/:user_id/task", (req, res, next) => {
   let sql = "select * from users where user_id=" + req.params.user_id;
   db.query(sql, (err, results) => {
     if (err) throw err;
@@ -48,7 +48,7 @@ router.post("/:user_id/task/add", (req, res, next) => {
 });
 
 //task 수정
-router.patch("/:user_id/task/edit/:task_id", (req, res, next) => {
+router.patch("/:user_id/task/:task_id", (req, res, next) => {
   let sql = "select * from users where user_id=" + req.params.user_id;
 
   db.query(sql, (err, results) => {
@@ -77,7 +77,7 @@ router.patch("/:user_id/task/edit/:task_id", (req, res, next) => {
 });
 
 //task 삭제
-router.delete("/:user_id/task/delete/:task_id", (req, res, next) => {
+router.delete("/:user_id/task/:task_id", (req, res, next) => {
   let sql = "select * from users where user_id=" + req.params.user_id;
 
   db.query(sql, (err, results) => {

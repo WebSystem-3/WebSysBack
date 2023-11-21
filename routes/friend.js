@@ -12,7 +12,7 @@ router.get("/:user_id1/friend", (req, res, next) => {
 });
 
 // friend 추가
-router.post("/:user_id1/friend/add/:user_id2", (req, res, next) => {
+router.post("/:user_id1/friend/:user_id2", (req, res, next) => {
   let sql = "select * from users where user_id =" + req.params.user_id1;
   db.query(sql, (err, results) => {
     if (err) throw err;
@@ -42,7 +42,7 @@ router.post("/:user_id1/friend/add/:user_id2", (req, res, next) => {
 });
 
 //friend 삭제
-router.delete("/:user_id1/friend/delete/:user_id2", (req, res, next) => {
+router.delete("/:user_id1/friend/:user_id2", (req, res, next) => {
   let sql = "select * from users where user_id=" + req.params.user_id1;
   db.query(sql, (err, results) => {
     if (err) throw err;
