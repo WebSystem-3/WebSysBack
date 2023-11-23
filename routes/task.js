@@ -3,14 +3,13 @@ var router = express.Router();
 const db = require("../config/db.config.js");
 
 //task 조회
-router.get("/:user_id/task/:task_id", (req, res, next) => {
+router.get("/:user_id/task", (req, res, next) => {
   let sql =
     "select * from tasks where user_id=" +
     req.params.user_id +
-    " and task_date=" +
-    req.params.task_date;
-
-  db.query(sql, (err, results) => {
+    " and task_date= ?";
+  const params = [req.body.task_date];
+  db.query(sql, params, (err, results) => {
     if (err) throw err;
     res.json(results);
   });
@@ -106,22 +105,14 @@ router.delete("/:user_id/task/:task_id", (req, res, next) => {
 //calendar 색상 조회
 router.get("/:user_id/task/time", (req, res, next) => {
   let sql =
-    "select sum(task_time) from tasks where user_id=" +
+    "select task_date, sum(task_time) AS total_task_time from tasks where user_id=" +
     req.params.user_id +
-    "and task_date=" +
-    req.params.task_date;
-
-  db.query(sql, (err, results) => {
+    " and task_date between ? and ? group by task_date order by task_date desc";
+  const params = [req.body.start_date, req.body.end_date];
+  db.query(sql, params, (err, results) => {
     if (err) throw err;
-    if (results.length === 0) {
-      return res
-        .status(400)
-        .json({ errorMessage: "색상 정보를 불러오는 데 실패하였습니다." });
-    } else {
-      return res
-        .status(200)
-        .json({ message: "색상 정보를 불러오는 데 성공하였습니다." });
-    }
+    console.log(results);
+    return res.status(200).json(results);
   });
 });
 
