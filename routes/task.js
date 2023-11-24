@@ -3,12 +3,9 @@ var router = express.Router();
 const db = require("../config/db.config.js");
 
 //task 조회
-router.get("/:user_id/task", (req, res, next) => {
-  let sql =
-    "select * from tasks where user_id=" +
-    req.params.user_id +
-    " and task_date= ?";
-  const params = [req.body.task_date];
+router.get("/:user_id/task/:task_date", (req, res, next) => {
+  let sql = "select * from tasks where user_id= ? and task_date= ? ";
+  const params = [req.params.user_id, req.params.task_date];
   db.query(sql, params, (err, results) => {
     if (err) throw err;
     res.json(results);
@@ -103,14 +100,23 @@ router.delete("/:user_id/task/:task_id", (req, res, next) => {
 });
 
 //calendar 색상 조회
-router.get("/:user_id/task/time", (req, res, next) => {
+router.get("/:user_id/task/time/:start_date/:end_date", (req, res, next) => {
   let sql =
-    "select task_date, sum(task_time) AS total_task_time from tasks where user_id=" +
-    req.params.user_id +
-    " and task_date between ? and ? group by task_date order by task_date desc";
-  const params = [req.body.start_date, req.body.end_date];
+    "SELECT task_date, SUM(task_time) AS total_task_time FROM tasks WHERE user_id = ? AND task_date BETWEEN ? AND ? GROUP BY task_date ORDER BY task_date DESC";
+  const params = [
+    req.params.user_id,
+    req.params.start_date,
+    req.params.end_date,
+  ];
+
+  console.log(sql);
+
   db.query(sql, params, (err, results) => {
-    if (err) throw err;
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
     console.log(results);
     return res.status(200).json(results);
   });
