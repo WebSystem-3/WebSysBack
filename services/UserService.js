@@ -54,4 +54,18 @@ module.exports = {
       throw err;
     }
   },
+  validationAccount: async (account) => {
+    try {
+      const db = await conn.getConnection();
+      const param = [account];
+      const user = await db.query(UserModel.findUserByAccount, param);
+      if (user.length > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (err) {
+      throw err;
+    }
+  },
 };
