@@ -45,7 +45,10 @@ module.exports = {
     try {
       const db = await conn.getConnection();
       const param = [account];
-      const user = await db.query(UserModel.findUserByAccount, param);
+      user = await db.query(UserModel.findUserByAccount, param);
+      if (user[0].length === 0) {
+        return false;
+      }
       if (user[0][0].password !== password) {
         return false;
       } else {

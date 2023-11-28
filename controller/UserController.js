@@ -58,7 +58,7 @@ module.exports = {
       const result = await UserService.loginUser(account, password);
       if (!result) {
         return res.status(400).json({
-          message: "비밀번호가 다릅니다.",
+          message: "존재하지 않는 id 이거나 비밀번호가 다릅니다.",
         });
       }
       return res.status(200).json({
