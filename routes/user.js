@@ -4,7 +4,7 @@ const db = require("../config/db.config.js");
 
 // 유저 정보 조회 (GET)
 router.get("/:user_id", (req, res, next) => {
-  const sql = "select * from users where user_id=" + req.params.id;
+  const sql = "select * from users where user_id=" + req.params.user_id;
   db.query(sql, (err, results) => {
     if (err) throw err;
     res.json(results);
@@ -31,13 +31,6 @@ router.post("/signup", (req, res, next) => {
         });
       });
     }
-  });
-
-  db.query(sql, params, (err, results) => {
-    if (err) throw err;
-    res.status(200).json({
-      message: "회원가입을 성공하였습니다.",
-    });
   });
 });
 

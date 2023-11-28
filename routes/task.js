@@ -17,6 +17,7 @@ router.get("/:user_id/task", (req, res, next) => {
 
 //task 등록
 router.post("/:user_id/task", (req, res, next) => {
+  console.log(req.params.user_id);
   let sql = "select * from users where user_id=" + req.params.user_id;
   db.query(sql, (err, results) => {
     if (err) throw err;
