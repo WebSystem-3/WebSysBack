@@ -22,10 +22,10 @@ module.exports = {
       throw err;
     }
   },
-  updateUser: async (password, name) => {
+  updateUser: async (user_id, password, name) => {
     try {
       const db = await conn.getConnection();
-      const param = [password, name];
+      const param = [password, name, user_id];
       const user = await db.query(UserModel.updateUser, param);
     } catch (err) {
       throw err;
@@ -35,6 +35,7 @@ module.exports = {
     try {
       const db = await conn.getConnection();
       const param = [user_id];
+      const task = await db.query(UserModel.deleteAllTaskByUserId, param);
       const user = await db.query(UserModel.deleteUserByUserId, param);
     } catch (err) {
       throw err;
@@ -45,10 +46,10 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [account];
       const user = await db.query(UserModel.findUserByAccount, param);
-      if (user[0].password !== password) {
+      if (user[0][0].password !== password) {
         return false;
       } else {
-        return true;
+        return user[0][0].user_id;
       }
     } catch (err) {
       throw err;

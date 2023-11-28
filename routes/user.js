@@ -6,8 +6,10 @@ var router = express.Router();
 router.get("/:user_id", UserController.getUserInfo);
 router.post("/signup", UserController.createUser); // // 유저 정보 조회 (GET)
 router.post("/login", UserController.loginRequest);
+router.post("/validation", UserController.validationAccount);
 router.patch("/:user_id", UserController.updateUser);
 router.delete("/:user_id", UserController.deleteUser);
+
 // router.post("/validation", UserController.)
 // router.get("/:user_id", (req, res, next) => {
 //   const sql = "select * from users where user_id=" + req.params.user_id;

@@ -10,7 +10,7 @@ module.exports = {
     }
     try {
       const result = await UserService.getUserInfo(user_id);
-      return res.json(result[0]);
+      return res.json(result[0][0]);
     } catch (err) {
       throw err;
     }
@@ -28,7 +28,7 @@ module.exports = {
       });
     }
     if (password.length < 8 || password.length > 16) {
-      return res.statsu(400).json({
+      return res.status(400).json({
         message: "password는 8~16자 사이여야 합니다.",
       });
     }
@@ -56,28 +56,34 @@ module.exports = {
     }
     try {
       const result = await UserService.loginUser(account, password);
-      if (result) {
-        res.status(200).json({
-          message: "로그인을 성공하였습니다.",
-        });
-      } else {
+      if (!result) {
         return res.status(400).json({
           message: "비밀번호가 다릅니다.",
         });
       }
+      return res.status(200).json({
+        message: "로그인을 성공하였습니다.",
+        user_id: result,
+      });
     } catch (err) {
       throw err;
     }
   },
   updateUser: async (req, res) => {
+    const { user_id } = req.params;
     const { password, name } = req.body;
+    if (!user_id) {
+      return res.status(400).json({
+        message: "user_id가 존재하지 않습니다.",
+      });
+    }
     if (!password) {
       return res.status(400).json({
         message: "password를 입력해주세요.",
       });
     }
     if (password.length < 8 || password.length > 16) {
-      return res.statsu(400).json({
+      return res.status(400).json({
         message: "password는 8~16자 사이여야 합니다.",
       });
     }
@@ -87,7 +93,7 @@ module.exports = {
       });
     }
     try {
-      const result = await UserService.updateUser(password, name);
+      const result = await UserService.updateUser(user_id, password, name);
       return res.status(200).json({
         message: "회원 정보 수정을 완료하였습니다.",
       });

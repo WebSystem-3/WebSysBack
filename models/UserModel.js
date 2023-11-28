@@ -4,4 +4,5 @@ module.exports = {
   createUser: "INSERT INTO users (account, password, name) VALUES (?, ?, ?)",
   updateUser: "UPDATE users SET password=?, name=? WHERE user_id=?",
   deleteUserByUserId: "DELETE FROM users WHERE user_id=?",
+  deleteAllTaskByUserId: "DELETE FROM tasks WHERE user_id=?",
 };

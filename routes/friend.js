@@ -2,6 +2,10 @@ var express = require("express");
 var router = express.Router();
 const db = require("../config/db.config.js");
 
+router.get("/:user_id1/friend", 
+router.post("/:user_id1/friend/:user_id2", 
+router.delete("/:user_id1/friend/:user_id2",  
+router.get("/:user_id1/friend/:user_id2/task", 
 // friend 조회
 router.get("/:user_id1/friend", (req, res, next) => {
   let sql = "select * from friends where user_id1 =" + req.params.user_id1;
@@ -13,7 +17,7 @@ router.get("/:user_id1/friend", (req, res, next) => {
 
 // friend 추가
 router.post("/:user_id1/friend/:user_id2", (req, res, next) => {
-  let sql = "select * from users where user_id =" + req.params.user_id1;
+  let sql = "select * from users where user_id1 =" + req.params.user_id1;
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
@@ -22,7 +26,7 @@ router.post("/:user_id1/friend/:user_id2", (req, res, next) => {
       });
     }
   });
-  sql = "select * from users where user_id=" + req.params.user_id2;
+  sql = "select * from users where user_id2=" + req.params.user_id2;
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
@@ -43,7 +47,7 @@ router.post("/:user_id1/friend/:user_id2", (req, res, next) => {
 
 //friend 삭제
 router.delete("/:user_id1/friend/:user_id2", (req, res, next) => {
-  let sql = "select * from users where user_id=" + req.params.user_id1;
+  let sql = "select * from users where user_id1=" + req.params.user_id1;
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
@@ -52,7 +56,7 @@ router.delete("/:user_id1/friend/:user_id2", (req, res, next) => {
       });
     }
   });
-  sql = "select * from users where user_id=" + req.params.user_id2;
+  sql = "select * from users where user_id2=" + req.params.user_id2;
   db.query(sql, (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
