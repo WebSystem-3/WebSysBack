@@ -139,7 +139,7 @@ module.exports = {
       throw err;
     }
   },
-  loginUser: async (req, res) => {
+  logoutUser: async (req, res) => {
     const { user_id } = req.params;
     if (!user_id) {
       return res.status(400).json({
@@ -148,7 +148,11 @@ module.exports = {
     }
     try {
       const result = UserService.getUserInfo(user_id);
-      if(result)
+      if (result) {
+        //로그아웃 성공 시
+      } else {
+        // 로그아웃 실패시
+      }
     } catch (err) {
       throw err;
     }
