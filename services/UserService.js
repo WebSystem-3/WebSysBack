@@ -52,7 +52,7 @@ module.exports = {
       if (user[0][0].password !== password) {
         return false;
       } else {
-        return user[0][0].user_id;
+        return user[0];
       }
     } catch (err) {
       throw err;
