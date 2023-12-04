@@ -4,8 +4,11 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
+const session = require("session");
+const cookieParser = require("cookie-parser");
 
 var indexRouter = require("./routes/index");
+
 var usersRouter = require("./routes/user");
 var taskRouter = require("./routes/task");
 var app = express();
@@ -40,4 +43,24 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
+//login session
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
+app.use(cookieParser());
+app.use(
+  session({
+    key: "loginData",
+    secret: "testSecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60 * 60 * 24,
+    },
+  })
+);
 module.exports = app;
