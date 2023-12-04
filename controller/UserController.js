@@ -51,14 +51,14 @@ module.exports = {
     const { account, password } = req.body;
     if (!account) {
       return res.status(400).json({
-        message: "계정을 입력해주세요.",
+        message: "account를 입력해주세요.",
       });
     }
     try {
       const result = await UserService.loginUser(account, password);
       if (!result) {
         return res.status(400).json({
-          message: "존재하지 않는 계정이거나 비밀번호가 다릅니다.",
+          message: "존재하지 않는 id 이거나 비밀번호가 다릅니다.",
         });
       }
       //세션에 로그인 데이터 저장
@@ -76,14 +76,11 @@ module.exports = {
 
         return res.status(200).json({
           message: "로그인을 성공하였습니다.",
-          user_id: result,
+          user_id: result[0].user_id,
         });
       });
     } catch (err) {
-      console.log(err);
-      return res.status(500).json({
-        message: "서버 오류가 발생했습니다.",
-      });
+      throw err;
     }
   },
   updateUser: async (req, res) => {
