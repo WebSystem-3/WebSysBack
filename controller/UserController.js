@@ -62,7 +62,10 @@ module.exports = {
         });
       }
       //세션에 로그인 데이터 저장
-      req.session.loginData = account;
+      req.session.loginData = {
+        account: account,
+        name: result[0].name,
+      };
       req.session.save((error) => {
         if (error) {
           console.log(error);
@@ -162,8 +165,15 @@ module.exports = {
     }
     try {
       const result = UserService.getUserInfo(user_id);
+
       if (result) {
         //로그아웃 성공 시
+        //세션 정보가 존재할 때
+        if (req.session.loginData) {
+          req.session.destroy((error) => {
+            if (error) console.log(error);
+          });
+        }
       } else {
         // 로그아웃 실패시
       }
