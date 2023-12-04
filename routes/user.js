@@ -9,6 +9,7 @@ router.post("/login", UserController.loginRequest);
 router.post("/validation", UserController.validationAccount);
 router.patch("/:user_id", UserController.updateUser);
 router.delete("/:user_id", UserController.deleteUser);
+router.get("/:user_id/logout", UserController.logoutUser);
 
 // router.post("/validation", UserController.)
 // router.get("/:user_id", (req, res, next) => {

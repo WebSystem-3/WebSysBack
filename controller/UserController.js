@@ -139,4 +139,18 @@ module.exports = {
       throw err;
     }
   },
+  loginUser: async (req, res) => {
+    const { user_id } = req.params;
+    if (!user_id) {
+      return res.status(400).json({
+        message: "user_id가 존재하지 않습니다.",
+      });
+    }
+    try {
+      const result = UserService.getUserInfo(user_id);
+      if(result)
+    } catch (err) {
+      throw err;
+    }
+  },
 };
