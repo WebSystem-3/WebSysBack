@@ -5,7 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
 const session = require("session");
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
 
 var indexRouter = require("./routes/index");
 
@@ -54,15 +54,15 @@ app.use(
 );
 
 app.use(cookieParser());
-app.use(
-  session({
-    key: "loginData",
-    secret: "testSecret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      expires: 60 * 60 * 24,
-    },
-  })
-);
+// app.use(
+//   session({
+//     key: "loginData",
+//     secret: "testSecret",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       expires: 60 * 60 * 24,
+//     },
+//   })
+// );
 module.exports = app;

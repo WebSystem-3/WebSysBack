@@ -27,6 +27,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [password, name, user_id];
       const user = await db.query(UserModel.updateUser, param);
+      console.log(user);
     } catch (err) {
       throw err;
     }
