@@ -59,9 +59,8 @@ module.exports = {
     try {
       const db = await conn.getConnection();
       const param = [user_id, start_date, end_date];
-      const task = await db.query(TaskModel.findTaskBetweenDate, param);
-
-      return task[0];
+      const tasks = await db.query(TaskModel.findTaskBetweenDate, param);
+      return tasks[0];
     } catch (err) {
       throw err;
     }
