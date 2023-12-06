@@ -15,11 +15,17 @@ module.exports = {
   },
   createUser: async (account, password, name) => {
     try {
-      console.log(account);
       const db = await conn.getConnection();
       const hashedPassword = await bcrypt.hash(password, 10);
       const param = [account, hashedPassword, name];
-      user = await db.query(UserModel.createUser, param);
+
+      let user = await db.query(UserModel.findUserByAccount, param);
+      if (user[0].length) {
+        return false;
+      } else {
+        user = await db.query(UserModel.createUser, param);
+        return true;
+      }
     } catch (err) {
       throw err;
     }
@@ -29,6 +35,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [password, name, user_id];
       const user = await db.query(UserModel.updateUser, param);
+      return user[0].affectedRows;
     } catch (err) {
       throw err;
     }

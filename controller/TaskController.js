@@ -42,14 +42,21 @@ module.exports = {
       });
     }
     try {
-      const result = await TaskService.createTask(
-        user_id,
-        task_name,
-        task_date
-      );
-      return res.status(200).json({
-        message: "task 등록이 완료되었습니다.",
-      });
+      const date = await TaskService.isValidDate(task_date);
+      if (date) {
+        const result = await TaskService.createTask(
+          user_id,
+          task_name,
+          task_date
+        );
+        return res.status(200).json({
+          message: "task 등록이 완료되었습니다.",
+        });
+      } else {
+        return res.status(400).json({
+          message: "올바르지 않은 날짜입니다.",
+        });
+      }
     } catch (err) {
       throw err;
     }
@@ -150,13 +157,18 @@ module.exports = {
       });
     }
     try {
-      const result = await TaskService.findTaskBetweenDate(
-        user_id,
-        start_date,
-        end_date
-      );
-      if (result) {
+      const date = await TaskService.isValidMonth(start_date, end_date);
+      if (date) {
+        const result = await TaskService.findTaskBetweenDate(
+          user_id,
+          start_date,
+          end_date
+        );
         return res.status(200).json(result);
+      } else {
+        return res.status(400).json({
+          message: "날짜가 잘못되었습니다.",
+        });
       }
     } catch (err) {
       throw err;
