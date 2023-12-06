@@ -19,7 +19,7 @@ module.exports = {
     const { account } = req.body;
     if (!account) {
       return res.status(400).json({
-        message: "account가 존재하지 않습니다.",
+        message: "사용자 계정이 존재하지 않습니다.",
       });
     }
     try {
@@ -50,7 +50,7 @@ module.exports = {
       const result = FriendService.createFriend(user_id1, user_id2);
       if (result) {
         return res.status(201).json({
-          message: "친구 추가를 성공하였습니다.",
+          message: "친구가 추가되었습니다.",
         });
       }
     } catch (err) {
@@ -73,7 +73,7 @@ module.exports = {
       const result = FriendService.deleteFriend(user_id1, user_id2);
       if (result) {
         return res.status(200).json({
-          message: "친구 삭제를 성공하였습니다.",
+          message: "친구가 삭제되었습니다.",
         });
       }
     } catch (err) {

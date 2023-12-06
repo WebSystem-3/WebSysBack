@@ -5,7 +5,7 @@ module.exports = {
     const { user_id, task_date } = req.params;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     if (!task_date) {
@@ -28,17 +28,17 @@ module.exports = {
     const { task_name, task_date } = req.body;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     if (!task_name) {
       return res.status(400).json({
-        message: "task_name이 존재하지 않습니다.",
+        message: "수행할 태스크의 이름을 작성해주세요.",
       });
     }
     if (!task_date) {
       return res.status(400).json({
-        message: "task_date이 존재하지 않습니다.",
+        message: "태스크를 수행할 날짜를 입력해주세요.",
       });
     }
     try {
@@ -50,7 +50,7 @@ module.exports = {
           task_date
         );
         return res.status(200).json({
-          message: "task 등록이 완료되었습니다.",
+          message: "태스크가 등록되었습니다.",
         });
       } else {
         return res.status(400).json({
@@ -66,24 +66,24 @@ module.exports = {
     const { task_name } = req.body;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     if (!task_id) {
       return res.status(400).json({
-        message: "task_id가 존재하지 않습니다.",
+        message: "태스크 아이디가 존재하지 않습니다.",
       });
     }
     if (!task_name) {
       return res.status(400).json({
-        message: "task_name이 존재하지 않습니다.",
+        message: "태스크 이름이 존재하지 않습니다.",
       });
     }
     try {
       const result = await TaskService.updateTask(task_name, task_id);
       if (result) {
         return res.status(200).json({
-          message: "task가 성공적으로 수정되었습니다.",
+          message: "태스크가 수정되었습니다.",
         });
       }
     } catch (err) {
@@ -95,17 +95,17 @@ module.exports = {
     const { task_time } = req.body;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     if (!task_id) {
       return res.status(400).json({
-        message: "task_id가 존재하지 않습니다.",
+        message: "태스크 아이디가 존재하지 않습니다.",
       });
     }
     if (!task_time) {
       return res.status(400).json({
-        message: "task_time이 존재하지 않습니다.",
+        message: "태스크를 수행할 시간이 존재하지 않습니다.",
       });
     }
     try {
@@ -115,7 +115,7 @@ module.exports = {
         task_time
       );
       return res.status(200).json({
-        message: "시간이 성공적으로 저장되었습니다.",
+        message: "시간이 저장되었습니다.",
       });
     } catch (err) {
       throw err;
@@ -125,19 +125,19 @@ module.exports = {
     const { user_id, task_id } = req.params;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     if (!task_id) {
       return res.status(400).json({
-        message: "task_id가 존재하지 않습니다.",
+        message: "태스크 아이디가 존재하지 않습니다.",
       });
     }
     try {
       const result = await TaskService.deleteTask(task_id);
       if (result) {
         return res.status(200).json({
-          message: "task가 성공적으로 삭제되었습니다.",
+          message: "태스크가 삭제되었습니다.",
         });
       }
     } catch (err) {
@@ -148,12 +148,12 @@ module.exports = {
     const { user_id, start_date, end_date } = req.params;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     if (!start_date || !end_date) {
       return res.status(400).json({
-        message: "start_date와 end_date가 존재하지 않습니다.",
+        message: "조회 할 날짜가 존재하지 않습니다.",
       });
     }
     try {

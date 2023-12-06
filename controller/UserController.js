@@ -4,7 +4,7 @@ module.exports = {
     const { user_id } = req.params;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     try {
@@ -18,22 +18,22 @@ module.exports = {
     const { account, password, name } = req.body;
     if (!account) {
       return res.status(400).json({
-        message: "account를 입력해주세요.",
+        message: "사용자 계정을 입력해주세요.",
       });
     }
     if (!password) {
       return res.status(400).json({
-        message: "password를 입력해주세요.",
+        message: "비밀번호를 입력해주세요.",
       });
     }
     if (password.length < 8 || password.length > 16) {
       return res.status(400).json({
-        message: "password는 8~16자 사이여야 합니다.",
+        message: "비밀번호는 8~16자 사이여야 합니다.",
       });
     }
     if (!name) {
       return res.status(400).json({
-        message: "name을 입력해주세요.",
+        message: "이름을 입력해주세요.",
       });
     }
 
@@ -41,7 +41,7 @@ module.exports = {
       const result = await UserService.createUser(account, password, name);
       if (result) {
         return res.status(201).json({
-          message: "회원 가입을 성공하였습니다.",
+          message: "회원가입 되었습니다.",
         });
       } else {
         return res.status(400).json({
@@ -56,19 +56,19 @@ module.exports = {
     const { account, password } = req.body;
     if (!account) {
       return res.status(400).json({
-        message: "account를 입력해주세요.",
+        message: "사용자 계정을 입력해주세요.",
       });
     }
     try {
       const result = await UserService.loginUser(account, password);
       if (!result) {
         return res.status(400).json({
-          message: "존재하지 않는 id 이거나 비밀번호가 다릅니다.",
+          message: "존재하지 않는 아이디이거나 비밀번호가 다릅니다.",
         });
       }
 
       return res.status(200).json({
-        message: "로그인을 성공하였습니다.",
+        message: "로그인 되었습니다.",
         user_id: result[0].user_id,
       });
       // //세션에 로그인 데이터 저장
@@ -93,29 +93,29 @@ module.exports = {
     const { password, name } = req.body;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     if (!password) {
       return res.status(400).json({
-        message: "password를 입력해주세요.",
+        message: "비밀번호를 입력해주세요.",
       });
     }
     if (password.length < 8 || password.length > 16) {
       return res.status(400).json({
-        message: "password는 8~16자 사이여야 합니다.",
+        message: "비밀번호는 8~16자 사이여야 합니다.",
       });
     }
     if (!name) {
       return res.status(400).json({
-        message: "name을 입력해주세요.",
+        message: "이름을 입력해주세요.",
       });
     }
     try {
       const result = await UserService.updateUser(user_id, password, name);
       if (result === 1) {
         return res.status(200).json({
-          message: "회원 정보 수정을 완료하였습니다.",
+          message: "회원 정보가 수정되었습니다.",
         });
       } else {
         return res.statsu(400).json({
@@ -135,13 +135,13 @@ module.exports = {
       user_id === "login"
     ) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     try {
       const result = await UserService.deleteUser(user_id);
       return res.status(200).json({
-        message: "회원 정보 삭제를 완료하였습니다.",
+        message: "회원 정보가 삭제되었습니다.",
       });
     } catch (err) {
       throw err;
@@ -151,7 +151,7 @@ module.exports = {
     const { account } = req.body;
     if (!account) {
       return res.status(400).json({
-        message: "account를 입력해주세요.",
+        message: "사용자 계정을 입력해주세요.",
       });
     }
     try {
@@ -173,7 +173,7 @@ module.exports = {
     const { user_id } = req.params;
     if (!user_id) {
       return res.status(400).json({
-        message: "user_id가 존재하지 않습니다.",
+        message: "유저 아이디가 존재하지 않습니다.",
       });
     }
     try {
