@@ -1,5 +1,6 @@
 const UserModel = require("../models/UserModel.js");
 const conn = require("../config/db.config.js");
+const bcrypt = require("bcrypt"); //모듈 불러오기
 
 module.exports = {
   getUserInfo: async (user_id) => {
@@ -16,8 +17,9 @@ module.exports = {
     try {
       console.log(account);
       const db = await conn.getConnection();
-      const param = [account, password, name];
-      const user = await db.query(UserModel.createUser, param);
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const param = [account, hashedPassword, name];
+      user = await db.query(UserModel.createUser, param);
     } catch (err) {
       throw err;
     }
@@ -49,7 +51,13 @@ module.exports = {
       if (user[0].length === 0) {
         return false;
       }
-      if (user[0][0].password !== password) {
+
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        user[0][0].password
+      );
+
+      if (!isPasswordValid) {
         return false;
       } else {
         return user[0];
