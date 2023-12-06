@@ -7,7 +7,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [user_id, task_date];
       const task = await db.query(TaskModel.findTaskByUserIdAndTaskDate, param);
-      return task;
+      return task[0];
     } catch (err) {
       throw err;
     }
@@ -62,6 +62,64 @@ module.exports = {
       const task = await db.query(TaskModel.findTaskBetweenDate, param);
 
       return task[0];
+    } catch (err) {
+      throw err;
+    }
+  },
+  isValidDate: async (task_date) => {
+    try {
+      const date = new Date(task_date);
+      return date.toString() !== "Invalid Date";
+    } catch (err) {
+      throw err;
+    }
+  },
+  isValidMonth: async (start_date, end_date) => {
+    try {
+      const date1 = new Date(start_date);
+      const date2 = new Date(end_date);
+      const start_month = date1.getMonth();
+      const end_month = date2.getMonth();
+      if (start_month !== end_month) {
+        return false;
+      }
+      let differenceBetweenStartAndEnd = date2 - date1;
+
+      if (differenceBetweenStartAndEnd < 0) {
+        return false;
+      }
+      differenceBetweenStartAndEnd = Math.abs(differenceBetweenStartAndEnd);
+      differenceBetweenStartAndEnd =
+        differenceBetweenStartAndEnd / (1000 * 60 * 60 * 24);
+
+      console.log("diff: ", differenceBetweenStartAndEnd);
+      if (
+        start_month === 1 ||
+        start_month === 3 ||
+        start_month === 5 ||
+        start_month === 7 ||
+        start_month === 8 ||
+        start_month === 10 ||
+        start_month === 12
+      ) {
+        if (differenceBetweenStartAndEnd > 31) {
+          return false;
+        }
+      } else if (
+        start_month === 4 ||
+        start_month === 6 ||
+        start_month === 9 ||
+        start_month === 11
+      ) {
+        if (differenceBetweenStartAndEnd > 30) {
+          return false;
+        }
+      } else {
+        if (differenceBetweenStartAndEnd > 28) {
+          return false;
+        }
+      }
+      return true;
     } catch (err) {
       throw err;
     }

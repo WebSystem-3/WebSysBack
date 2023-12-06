@@ -39,9 +39,15 @@ module.exports = {
 
     try {
       const result = await UserService.createUser(account, password, name);
-      return res.status(201).json({
-        message: "회원 가입을 성공하였습니다.",
-      });
+      if (result) {
+        return res.status(201).json({
+          message: "회원 가입을 성공하였습니다.",
+        });
+      } else {
+        return res.status(400).json({
+          message: "이미 존재하는 계정입니다.",
+        });
+      }
     } catch (err) {
       throw err;
     }
@@ -107,16 +113,27 @@ module.exports = {
     }
     try {
       const result = await UserService.updateUser(user_id, password, name);
-      return res.status(200).json({
-        message: "회원 정보 수정을 완료하였습니다.",
-      });
+      if (result === 1) {
+        return res.status(200).json({
+          message: "회원 정보 수정을 완료하였습니다.",
+        });
+      } else {
+        return res.statsu(400).json({
+          message: "회원 정보 수정을 실패하였습니다.",
+        });
+      }
     } catch (err) {
       throw err;
     }
   },
   deleteUser: async (req, res) => {
     const { user_id } = req.params;
-    if (!user_id) {
+    if (
+      !user_id ||
+      user_id === "validation" ||
+      user_id === "signup" ||
+      user_id === "login"
+    ) {
       return res.status(400).json({
         message: "user_id가 존재하지 않습니다.",
       });
