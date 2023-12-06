@@ -3,9 +3,9 @@ var router = express.Router();
 const db = require("../config/db.config.js");
 const FriendController = require("../controller/FriendController.js");
 
-router.get("", FriendController.findFriendsByUserId1);
-router.get("/user", FriendController.findFriendsByAccount);
-router.post("/:user_id2", FriendController.createFriend);
+router.get("/:user_id1/friend", FriendController.findFriendsByUserId1);
+router.post("/:user_id1/friend/user", FriendController.findFriendsByAccount);
+router.post("/:user_id1/friend/:user_id2", FriendController.createFriend);
 router.delete("/:user_id1/friend/:user_id2", FriendController.deleteFriend);
 router.get("/:user_id1/friend/:user_id2/task", FriendController.getFriendTask);
 // friend 조회

@@ -47,6 +47,12 @@ module.exports = {
       });
     }
     try {
+      const friend = await FriendService.isValidUserId2(user_id2);
+      if (!friend) {
+        return res.status(400).json({
+          message: "user_id2를 입력해주세요.",
+        });
+      }
       const result = FriendService.createFriend(user_id1, user_id2);
       if (result) {
         return res.status(201).json({
@@ -75,10 +81,41 @@ module.exports = {
         return res.status(200).json({
           message: "친구가 삭제되었습니다.",
         });
+      } else {
+        return res.status(400).json({
+          message: "친구 삭제를 실패하였습니다.",
+        });
       }
     } catch (err) {
       throw err;
     }
   },
-  getFriendTask: async (req, res) => {},
+  getFriendTask: async (req, res) => {
+    const { user_id1, user_id2 } = req.params;
+    if (!user_id1) {
+      return res.status(400).json({
+        message: "user_id1이 존재하지 않습니다.",
+      });
+    }
+    if (!user_id2) {
+      return res.status(400).json({
+        message: "user_id2가 존재하지 않습니다.",
+      });
+    }
+    try {
+      const friend = await FriendService.findFriendsByUserId1AndUserId2(
+        user_id1,
+        user_id2
+      );
+      if (!friend) {
+        return res.status(400).json({
+          message: "친구가 존재하지 않습니다.",
+        });
+      }
+      const result = await FriendService.getFriendTask(user_id2);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  },
 };
