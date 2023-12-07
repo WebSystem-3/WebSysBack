@@ -10,13 +10,18 @@ module.exports = {
       const friends = await db.query(FriendModel.findFriendsByUserId1, param);
       const freindsDetail = await Promise.all(
         friends[0].map(async (friend) => {
-          const param = [friend[0].user_id];
+          const param = [friend.user_id2];
           const userDetails = await db.query(
             UserModel.findUserIdAndNameByUserId,
             param
           );
+          return {
+            user_id: userDetails[0][0].user_id,
+            name: userDetails[0][0].name,
+          };
         })
       );
+      return freindsDetail;
     } catch (err) {
       throw err;
     }
