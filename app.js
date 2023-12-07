@@ -17,7 +17,10 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
+app.set("etag", false);
+const options = { etag: false };
 
+app.use(express.static("public", options));
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());

@@ -51,6 +51,7 @@ module.exports = {
         );
         return res.status(200).json({
           message: "태스크가 등록되었습니다.",
+          result,
         });
       } else {
         return res.status(400).json({
