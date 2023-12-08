@@ -66,19 +66,19 @@ module.exports = {
           message: "존재하지 않는 아이디이거나 비밀번호가 다릅니다.",
         });
       }
-      // //세션에 로그인 데이터 저장
-      // req.session.loginData = {
-      //   account: account,
-      //   name: result[0].name,
-      // };
-      // req.session.save((error) => {
-      //   if (error) {
-      //     console.log(error);
-      //     return res.status(500).json({
-      //       message: "세션 저장 중 오류가 발생했습니다.",
-      //     });
-      //   }
-      // });
+      //세션에 로그인 데이터 저장
+      req.session.loginData = {
+        account: account,
+        name: result[0].name,
+      };
+      req.session.save((error) => {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({
+            message: "세션 저장 중 오류가 발생했습니다.",
+          });
+        }
+      });
 
       return res.status(200).json({
         message: "로그인 되었습니다.",
