@@ -78,7 +78,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [account];
       const user = await db.query(UserModel.findUserByAccount, param);
-      if (user.length > 0) {
+      if (user[0].length > 0) {
         return false;
       } else {
         return true;

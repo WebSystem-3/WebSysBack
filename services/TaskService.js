@@ -15,8 +15,16 @@ module.exports = {
   createTask: async (user_id, task_name, task_date) => {
     try {
       const db = await conn.getConnection();
-      const param = [user_id, task_name, task_date];
+      let param = [user_id, task_name, task_date];
       const task = await db.query(TaskModel.createTask, param);
+      if (task[0].affectedRows) {
+        param = [user_id, task_date];
+        const res = await db.query(
+          TaskModel.findTaskByUserIdAndTaskDate,
+          param
+        );
+        return res[0];
+      }
     } catch (err) {
       throw err;
     }

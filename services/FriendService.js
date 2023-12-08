@@ -7,8 +7,21 @@ module.exports = {
     try {
       const db = await conn.getConnection();
       const param = [user_id1];
-      const friend = await db.query(FriendModel.findFriendsByUserId1, param);
-      return friend[0];
+      const friends = await db.query(FriendModel.findFriendsByUserId1, param);
+      const freindsDetail = await Promise.all(
+        friends[0].map(async (friend) => {
+          const param = [friend.user_id2];
+          const userDetails = await db.query(
+            UserModel.findUserIdAndNameByUserId,
+            param
+          );
+          return {
+            user_id: userDetails[0][0].user_id,
+            name: userDetails[0][0].name,
+          };
+        })
+      );
+      return freindsDetail;
     } catch (err) {
       throw err;
     }
@@ -18,8 +31,13 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [account];
       const friend = await db.query(UserModel.findUserByAccount, param);
+      const res = {
+        user_id: friend[0][0].user_id,
+        account: friend[0][0].account,
+        name: friend[0][0].name,
+      };
       if (friend) {
-        return friend[0];
+        return res;
       } else {
         return false;
       }
