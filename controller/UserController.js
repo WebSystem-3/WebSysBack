@@ -194,4 +194,45 @@ module.exports = {
       throw err;
     }
   },
+
+  testLogin: async (req, res) => {
+    const { account, password } = req.body;
+
+    try {
+      // 로그인을 시뮬레이트합니다.
+      const result = await UserService.loginUser(account, password);
+
+      // 로그인이 성공했는지 확인합니다.
+      if (result) {
+        // 세션 데이터 설정
+        req.session.loginData = {
+          account: account,
+          name: result[0].name,
+        };
+
+        // 세션 저장
+        req.session.save((error) => {
+          if (error) {
+            console.log(error);
+            return res.status(500).json({
+              message: "세션 저장 중 오류가 발생했습니다.",
+            });
+          }
+
+          return res.status(200).json({
+            message: "테스트 로그인 성공. 세션이 설정되었습니다.",
+          });
+        });
+      } else {
+        return res.status(400).json({
+          message: "테스트 로그인 실패. 잘못된 자격 증명.",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        message: "내부 서버 오류.",
+      });
+    }
+  },
 };

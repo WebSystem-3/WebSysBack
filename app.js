@@ -13,6 +13,10 @@ var taskRouter = require("./routes/task");
 var friendsRouter = require("./routes/friend");
 var app = express();
 
+//session test route
+var testRouter = require("./routes/test");
+app.use("/test", testRouter);
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
