@@ -4,7 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
-const session = require("express-session");
+// const session = require("express-session");
 
 var indexRouter = require("./routes/index");
 
@@ -12,10 +12,6 @@ var usersRouter = require("./routes/user");
 var taskRouter = require("./routes/task");
 var friendsRouter = require("./routes/friend");
 var app = express();
-
-//session test route
-var testRouter = require("./routes/test");
-app.use("/test", testRouter);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -35,6 +31,11 @@ app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/", taskRouter);
 app.use("/", friendsRouter);
+
+//session test route
+var testRouter = require("./routes/test");
+app.use("/test", testRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -59,17 +60,17 @@ app.use(
   })
 );
 
-app.use(cookieParser());
-app.use(
-  session({
-    key: "loginData",
-    secret: "testSecret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      expires: 60 * 60 * 24,
-    },
-  })
-);
+// app.use(cookieParser());
+// app.use(
+//   session({
+//     key: "loginData",
+//     secret: "testSecret",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       expires: 60 * 60 * 24,
+//     },
+//   })
+// );
 
 module.exports = app;
