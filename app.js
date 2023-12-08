@@ -4,7 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
-const session = require("express-session");
+// const session = require("express-session");
 
 var indexRouter = require("./routes/index");
 
@@ -59,17 +59,17 @@ app.use(
   })
 );
 
-app.use(cookieParser());
-app.use(
-  session({
-    key: "loginData",
-    secret: "testSecret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      expires: 60 * 60 * 24,
-    },
-  })
-);
+// app.use(cookieParser());
+// app.use(
+//   session({
+//     key: "loginData",
+//     secret: "testSecret",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       expires: 60 * 60 * 24,
+//     },
+//   })
+// );
 
 module.exports = app;
