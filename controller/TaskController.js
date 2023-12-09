@@ -19,7 +19,7 @@ module.exports = {
         user_id,
         task_date
       );
-      res.status(200).json(result);
+      return res.status(200).json(result);
     } catch (err) {
       throw err;
     }
