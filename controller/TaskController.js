@@ -145,7 +145,7 @@ module.exports = {
       throw err;
     }
   },
-  findTaskBetweenDate: async (req, res) => {
+  findTaskBetweenDate: async (req, res, next) => {
     const { user_id, start_date, end_date } = req.params;
     if (!user_id) {
       return res.status(400).json({
@@ -159,6 +159,7 @@ module.exports = {
     }
     try {
       const date = await TaskService.isValidMonth(start_date, end_date);
+
       if (date) {
         const result = await TaskService.findTaskBetweenDate(
           user_id,
@@ -172,7 +173,7 @@ module.exports = {
         });
       }
     } catch (err) {
-      throw err;
+      return next(err);
     }
   },
 };
