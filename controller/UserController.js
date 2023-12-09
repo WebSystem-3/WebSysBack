@@ -72,31 +72,35 @@ module.exports = {
         name: result[0].name,
       };
 
-      try {
-        await new Promise((resolve, reject) => {
-          req.session.save((error) => {
-            if (error) {
-              console.log(error);
-              reject(error);
-            } else {
-              resolve();
-            }
-          });
+      // try {
+      await new Promise((resolve, reject) => {
+        req.session.save((error) => {
+          if (error) {
+            console.log("세션 저장 중 오류: ", error);
+            reject(error);
+          } else {
+            resolve();
+          }
         });
-      } catch (error) {
-        return res.status(500).json({
-          message: "세션 저장 중 오류가 발생했습니다.",
-        });
-      }
+      });
+      // } catch (error) {
+      //   return res.status(500).json({
+      //     message: "세션 저장 중 오류가 발생했습니다.",
+      //   });
+      // }
 
       return res.status(200).json({
         message: "로그인 되었습니다.",
         user_id: result[0].user_id,
       });
     } catch (err) {
-      throw err;
+      console.error("로그인 오류: ", err);
+      return res.status(500).json({
+        message: "로그인 중 오류가 발생했습니다",
+      });
     }
   },
+
   updateUser: async (req, res) => {
     const { user_id } = req.params;
     const { password, name } = req.body;
@@ -234,10 +238,13 @@ module.exports = {
       // 로그인이 성공했는지 확인합니다.
       if (result) {
         // 세션 데이터 설정
-        req.session.loginData = {
-          account: account,
-          name: result[0].name,
-        };
+        if (req.session && req.session.loginData) {
+          req.session.loginData = {
+            user_id: result[0].user_id,
+            account: account,
+            name: result[0].name,
+          };
+        }
 
         // 세션 저장
         req.session.save((error) => {
