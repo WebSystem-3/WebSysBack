@@ -23,12 +23,29 @@ app.set("etag", false);
 const options = { etag: false };
 
 app.use(express.static("public", options));
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+  session({
+    key: "loginData",
+    secret: "testSecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60 * 60 * 24,
+    },
+  })
+);
 
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
@@ -50,26 +67,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-//login session
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-);
-
-app.use(cookieParser());
-app.use(
-  session({
-    key: "loginData",
-    secret: "testSecret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      expires: 60 * 60 * 24,
-    },
-  })
-);
 
 module.exports = app;
