@@ -2,6 +2,7 @@ const FriendService = require("../services/FriendService");
 
 module.exports = {
   findFriendsByUserId1: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id1 } = req.params;
     if (!user_id1) {
       return res.status(400).json({
@@ -16,6 +17,7 @@ module.exports = {
     }
   },
   findFriendsByAccount: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { account } = req.params;
     console.log(account);
     if (!account) {
@@ -37,6 +39,7 @@ module.exports = {
     }
   },
   createFriend: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id1 } = req.params;
     const { user_id2 } = req.body;
     console.log(user_id1, user_id2);
@@ -69,6 +72,7 @@ module.exports = {
     }
   },
   deleteFriend: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id1, user_id2 } = req.params;
     if (!user_id1) {
       return res.status(400).json({
@@ -96,6 +100,7 @@ module.exports = {
     }
   },
   getFriendTask: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id1, user_id2 } = req.params;
     if (!user_id1) {
       return res.status(400).json({

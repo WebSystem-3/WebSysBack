@@ -2,6 +2,7 @@ const TaskService = require("../services/TaskService");
 
 module.exports = {
   findTaskByUserIdAndTaskDate: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id, task_date } = req.params;
     if (!user_id) {
       return res.status(400).json({
@@ -24,6 +25,7 @@ module.exports = {
     }
   },
   createTask: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id } = req.params;
     const { task_name, task_date } = req.body;
     if (!user_id) {
@@ -63,6 +65,7 @@ module.exports = {
     }
   },
   updateTask: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id, task_id } = req.params;
     const { task_name } = req.body;
     if (!user_id) {
@@ -92,6 +95,7 @@ module.exports = {
     }
   },
   updateTaskTime: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id, task_id } = req.params;
     const { task_time } = req.body;
     if (!user_id) {
@@ -123,6 +127,7 @@ module.exports = {
     }
   },
   deleteTask: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id, task_id } = req.params;
     if (!user_id) {
       return res.status(400).json({
@@ -146,6 +151,7 @@ module.exports = {
     }
   },
   findTaskBetweenDate: async (req, res, next) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id, start_date, end_date } = req.params;
     if (!user_id) {
       return res.status(400).json({

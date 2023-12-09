@@ -1,6 +1,7 @@
 const UserService = require("../services/UserService");
 module.exports = {
   getUserInfo: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id } = req.params;
     if (!user_id) {
       return res.status(400).json({
@@ -15,6 +16,7 @@ module.exports = {
     }
   },
   createUser: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { account, password, name } = req.body;
     if (!account) {
       return res.status(400).json({
@@ -53,6 +55,7 @@ module.exports = {
     }
   },
   loginRequest: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { account, password } = req.body;
     if (!account) {
       return res.status(400).json({
@@ -102,6 +105,7 @@ module.exports = {
   },
 
   updateUser: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id } = req.params;
     const { password, name } = req.body;
     if (!user_id) {
@@ -140,6 +144,7 @@ module.exports = {
     }
   },
   deleteUser: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id } = req.params;
     if (
       !user_id ||
@@ -161,6 +166,7 @@ module.exports = {
     }
   },
   validationAccount: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { account } = req.body;
     if (!account) {
       return res.status(400).json({
@@ -183,6 +189,7 @@ module.exports = {
     }
   },
   logoutUser: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { user_id } = req.params;
     if (!user_id) {
       return res.status(400).json({
@@ -229,6 +236,7 @@ module.exports = {
   },
 
   testLogin: async (req, res) => {
+    req.connection.setTimeout(60 * 15 * 1000);
     const { account, password } = req.body;
 
     try {
