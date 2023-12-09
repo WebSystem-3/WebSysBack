@@ -193,14 +193,34 @@ module.exports = {
         //세션 정보가 존재할 때
         if (req.session.loginData) {
           req.session.destroy((error) => {
-            if (error) console.log(error);
+            if (error) {
+              console.log(error);
+              return res.status(500).json({
+                message: "세션 삭제 중 오류가 발생했습니다.",
+              });
+            }
+            //로그아웃 성공 응답
+            return res.status(200).json({
+              message: "로그아웃 되었습니다.",
+            });
+          });
+        } else {
+          //세션 정보가 없으면 이미 로그아웃된 상태
+          return res.status(200).json({
+            message: "이미 로그아웃된 상태입니다.",
           });
         }
       } else {
         // 로그아웃 실패시
+        return res.status(400).json({
+          message: "유저 정보를 찾을 수 없습니다.",
+        });
       }
     } catch (err) {
-      throw err;
+      console.error(err);
+      return res.status(500).json({
+        message: "내부 서버 오류.",
+      });
     }
   },
 
