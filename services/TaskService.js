@@ -68,7 +68,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [user_id, start_date, end_date];
       const tasks = await db.query(TaskModel.findTaskBetweenDate, param);
-      const taskDetail = tasks[0].map((task) => {
+      const taskDetail = tasks[0].map(async (task) => {
         const total_time = task.total_task_time;
         const [hours, minutes, seconds] = total_time.match(/.{1,2}/g);
         const result = parseInt(hours * 60) + parseInt(minutes);

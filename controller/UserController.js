@@ -238,7 +238,7 @@ module.exports = {
           account: account,
           name: result[0].name,
         };
-
+        console.log(req.session);
         // 세션 저장
         req.session.save((error) => {
           if (error) {
