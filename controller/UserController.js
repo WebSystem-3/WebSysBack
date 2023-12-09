@@ -66,19 +66,28 @@ module.exports = {
           message: "존재하지 않는 아이디이거나 비밀번호가 다릅니다.",
         });
       }
-      // //세션에 로그인 데이터 저장
-      // req.session.loginData = {
-      //   account: account,
-      //   name: result[0].name,
-      // };
-      // req.session.save((error) => {
-      //   if (error) {
-      //     console.log(error);
-      //     return res.status(500).json({
-      //       message: "세션 저장 중 오류가 발생했습니다.",
-      //     });
-      //   }
-      // });
+      //세션에 로그인 데이터 저장
+      req.session.loginData = {
+        account: account,
+        name: result[0].name,
+      };
+
+      try {
+        await new Promise((resolve, reject) => {
+          req.session.save((error) => {
+            if (error) {
+              console.log(error);
+              reject(error);
+            } else {
+              resolve();
+            }
+          });
+        });
+      } catch (error) {
+        return res.status(500).json({
+          message: "세션 저장 중 오류가 발생했습니다.",
+        });
+      }
 
       return res.status(200).json({
         message: "로그인 되었습니다.",
@@ -213,9 +222,10 @@ module.exports = {
         // 세션 저장
         req.session.save((error) => {
           if (error) {
-            console.log(error);
+            console.log("세션 저장 중 오류: ", error);
             return res.status(500).json({
               message: "세션 저장 중 오류가 발생했습니다.",
+              error: error.message,
             });
           }
 
@@ -225,13 +235,14 @@ module.exports = {
         });
       } else {
         return res.status(400).json({
-          message: "테스트 로그인 실패. 잘못된 자격 증명.",
+          message: "테스트 로그인 실패. 유효하지 않은 자격 증명입니다.",
         });
       }
     } catch (err) {
-      console.error(err);
+      console.error("내부 서버 오류: ", err);
       return res.status(500).json({
         message: "내부 서버 오류.",
+        error: err.message,
       });
     }
   },
