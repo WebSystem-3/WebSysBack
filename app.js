@@ -15,7 +15,6 @@ var app = express();
 
 //session test route
 var testRouter = require("./routes/test");
-app.use("/test", testRouter);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -35,6 +34,7 @@ app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/", taskRouter);
 app.use("/", friendsRouter);
+app.use("/test", testRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
