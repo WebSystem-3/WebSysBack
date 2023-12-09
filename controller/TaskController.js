@@ -164,20 +164,12 @@ module.exports = {
       });
     }
     try {
-      const date = await TaskService.isValidMonth(start_date, end_date);
-
-      if (date) {
-        const result = await TaskService.findTaskBetweenDate(
-          user_id,
-          start_date,
-          end_date
-        );
-        return res.status(200).json(result);
-      } else {
-        return res.status(400).json({
-          message: "날짜가 잘못되었습니다.",
-        });
-      }
+      const result = await TaskService.findTaskBetweenDate(
+        user_id,
+        start_date,
+        end_date
+      );
+      return res.status(200).json(result);
     } catch (err) {
       return next(err);
     }
