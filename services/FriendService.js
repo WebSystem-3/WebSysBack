@@ -80,7 +80,6 @@ module.exports = {
       const year = date.getFullYear();
       const month = date.getMonth();
       const day = date.getDay();
-      // const friend = await db.query(TaskModel.)
     } catch (err) {
       throw err;
     }

@@ -1,6 +1,6 @@
 const UserModel = require("../models/UserModel.js");
 const conn = require("../config/db.config.js");
-const bcrypt = require("bcrypt"); //모듈 불러오기
+const bcrypt = require("bcrypt"); 
 
 module.exports = {
   getUserInfo: async (user_id) => {
