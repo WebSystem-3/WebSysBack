@@ -72,10 +72,7 @@ module.exports = {
 
       const taskDetail = tasks[0].map((task) => {
         let total_time = String(task.total_task_time).padStart(6, "0");
-
-        console.log(total_time);
         const [hours, minutes, seconds] = total_time.match(/.{1,2}/g);
-        console.log(hours, minutes);
         const result = parseInt(hours * 60) + parseInt(minutes);
         return {
           task_date: task.task_date,
