@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-// const db = require("../config/db.config.js");
 const TaskController = require("../controller/TaskController.js");
 
 router.get(
