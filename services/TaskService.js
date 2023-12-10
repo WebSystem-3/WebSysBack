@@ -71,12 +71,8 @@ module.exports = {
       const tasks = await db.query(TaskModel.findTaskBetweenDate, param);
 
       const taskDetail = tasks[0].map((task) => {
-        let total_time;
-        if (task.total_task_time.length === 5) {
-          total_time = "0" + task.total_task_time;
-        } else {
-          total_time = task.total_task_time;
-        }
+        let total_time = String(task.total_task_time).padStart(6, "0");
+
         console.log(total_time);
         const [hours, minutes, seconds] = total_time.match(/.{1,2}/g);
         console.log(hours, minutes);
