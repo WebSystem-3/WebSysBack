@@ -119,9 +119,11 @@ module.exports = {
         task_id,
         task_time
       );
-      return res.status(200).json({
-        message: "시간이 저장되었습니다.",
-      });
+      if (result) {
+        return res.status(200).json({
+          message: "시간이 저장되었습니다.",
+        });
+      }
     } catch (err) {
       throw err;
     }

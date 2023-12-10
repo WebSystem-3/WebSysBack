@@ -49,6 +49,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [task_time, task_id];
       const task = await db.query(TaskModel.updateTaskTime, param);
+      return true;
     } catch (err) {
       throw err;
     }
@@ -70,10 +71,16 @@ module.exports = {
       const tasks = await db.query(TaskModel.findTaskBetweenDate, param);
 
       const taskDetail = tasks[0].map((task) => {
-        const total_time = task.total_task_time;
+        let total_time;
+        if (task.total_task_time.length === 5) {
+          total_time = "0" + task.total_task_time;
+        } else {
+          total_time = task.total_task_time;
+        }
+        console.log(total_time);
         const [hours, minutes, seconds] = total_time.match(/.{1,2}/g);
+        console.log(hours, minutes);
         const result = parseInt(hours * 60) + parseInt(minutes);
-
         return {
           task_date: task.task_date,
           total_task_time: result,
