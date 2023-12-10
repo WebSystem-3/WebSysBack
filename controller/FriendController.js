@@ -71,7 +71,7 @@ module.exports = {
         }
       } else {
         return res.status(400).json({
-          message: "이미 친구입니다.",
+          message: "이미 추가된 친구입니다.",
         });
       }
     } catch (err) {

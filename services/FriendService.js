@@ -63,9 +63,15 @@ module.exports = {
     try {
       const db = await conn.getConnection();
       let param = [user_id1, user_id2];
-      let friend = await db.query(FriendModel.deleteFriend, param);
+      let friend = await db.query(
+        FriendModel.deleteFriendByUserId1AndUserId2,
+        param
+      );
       param = [user_id2, user_id1];
-      friend = await db.query(FriendModel.deleteFriend, param);
+      friend = await db.query(
+        FriendModel.deleteFriendByUserId1AndUserId2,
+        param
+      );
       db.release();
       return friend[0].affectedRows;
     } catch (err) {

@@ -1,6 +1,7 @@
 const UserModel = require("../models/UserModel.js");
 const conn = require("../config/db.config.js");
-const bcrypt = require("bcrypt"); 
+const bcrypt = require("bcrypt");
+const FriendModel = require("../models/FriendModel.js");
 
 module.exports = {
   getUserInfo: async (user_id) => {
@@ -49,6 +50,9 @@ module.exports = {
     try {
       const db = await conn.getConnection();
       const param = [user_id];
+      let friend = await db.query(FriendModel.deleteFriendByUserId1, param);
+      db.release();
+      friend = await db.query(FriendModel.deleteFriendByUserId2, param);
       const task = await db.query(UserModel.deleteAllTaskByUserId, param);
       db.release();
       const user = await db.query(UserModel.deleteUserByUserId, param);
