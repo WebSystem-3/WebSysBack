@@ -7,6 +7,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [user_id, task_date];
       const task = await db.query(TaskModel.findTaskByUserIdAndTaskDate, param);
+      db.release();
       return task[0];
     } catch (err) {
       throw err;
@@ -23,6 +24,7 @@ module.exports = {
           TaskModel.findTaskByUserIdAndTaskDate,
           param
         );
+        db.release();
         return res[0];
       }
     } catch (err) {
@@ -34,7 +36,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [task_name, task_id];
       const task = await db.query(TaskModel.updateTask, param);
-
+      db.release();
       if (task.length === 0) {
         return false;
       } else {
@@ -49,6 +51,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [task_time, task_id];
       const task = await db.query(TaskModel.updateTaskTime, param);
+      db.release();
       return true;
     } catch (err) {
       throw err;
@@ -59,6 +62,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [task_id];
       const task = await db.query(TaskModel.deleteTask, param);
+      db.release();
       return true;
     } catch (err) {
       throw err;
@@ -79,6 +83,7 @@ module.exports = {
           total_task_time: result,
         };
       });
+      db.release();
       return taskDetail;
     } catch (err) {
       throw err;

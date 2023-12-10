@@ -21,6 +21,7 @@ module.exports = {
           };
         })
       );
+      db.release();
       return freindsDetail;
     } catch (err) {
       throw err;
@@ -39,6 +40,7 @@ module.exports = {
         account: friend[0][0].account,
         name: friend[0][0].name,
       };
+      db.release();
       return res;
     } catch (err) {
       throw err;
@@ -51,6 +53,7 @@ module.exports = {
       let friend = await db.query(FriendModel.createFriend, param);
       param = [user_id2, user_id1];
       friend = await db.query(FriendModel.createFriend, param);
+      db.release();
       return true;
     } catch (err) {
       throw err;
@@ -63,6 +66,7 @@ module.exports = {
       let friend = await db.query(FriendModel.deleteFriend, param);
       param = [user_id2, user_id1];
       friend = await db.query(FriendModel.deleteFriend, param);
+      db.release();
       return friend[0].affectedRows;
     } catch (err) {
       throw err;
@@ -89,6 +93,7 @@ module.exports = {
         FriendModel.findFriendsByUserId1AndUserId2,
         param
       );
+      db.release();
       if (friend[0].length) {
         return true;
       } else {

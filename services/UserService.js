@@ -8,6 +8,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [user_id];
       const user = await db.query(UserModel.findUserByUserId, param);
+      db.release();
       return user;
     } catch (err) {
       throw err;
@@ -20,10 +21,12 @@ module.exports = {
       const param = [account, hashedPassword, name];
 
       let user = await db.query(UserModel.findUserByAccount, param);
+      db.release();
       if (user[0].length) {
         return false;
       } else {
         user = await db.query(UserModel.createUser, param);
+        db.release();
         return true;
       }
     } catch (err) {
@@ -35,6 +38,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [password, name, user_id];
       const user = await db.query(UserModel.updateUser, param);
+      db.release();
       return user[0].affectedRows;
     } catch (err) {
       throw err;
@@ -45,7 +49,9 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [user_id];
       const task = await db.query(UserModel.deleteAllTaskByUserId, param);
+      db.release();
       const user = await db.query(UserModel.deleteUserByUserId, param);
+      db.release();
     } catch (err) {
       throw err;
     }
@@ -55,6 +61,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [account];
       user = await db.query(UserModel.findUserByAccount, param);
+      db.release();
       if (user[0].length === 0) {
         return false;
       }
@@ -78,6 +85,7 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [account];
       const user = await db.query(UserModel.findUserByAccount, param);
+      db.release();
       if (user[0].length > 0) {
         return false;
       } else {
