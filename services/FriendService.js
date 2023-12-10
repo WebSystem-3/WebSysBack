@@ -31,16 +31,15 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [account];
       const friend = await db.query(UserModel.findUserByAccount, param);
+      if (friend[0].length === 0) {
+        return false;
+      }
       const res = {
         user_id: friend[0][0].user_id,
         account: friend[0][0].account,
         name: friend[0][0].name,
       };
-      if (friend) {
-        return res;
-      } else {
-        return false;
-      }
+      return res;
     } catch (err) {
       throw err;
     }
@@ -75,7 +74,6 @@ module.exports = {
       const year = date.getFullYear();
       const month = date.getMonth();
       const day = date.getDay();
-      console.log(year + "-" + month + "-" + day);
       // const friend = await db.query(TaskModel.)
     } catch (err) {
       throw err;
