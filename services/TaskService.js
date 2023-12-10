@@ -7,7 +7,6 @@ module.exports = {
       const db = await conn.getConnection();
       const param = [user_id, task_date];
       const task = await db.query(TaskModel.findTaskByUserIdAndTaskDate, param);
-      conn.end();
       return task[0];
     } catch (err) {
       throw err;
@@ -74,6 +73,7 @@ module.exports = {
         const total_time = task.total_task_time;
         const [hours, minutes, seconds] = total_time.match(/.{1,2}/g);
         const result = parseInt(hours * 60) + parseInt(minutes);
+
         return {
           task_date: task.task_date,
           total_task_time: result,
