@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
 const session = require("express-session");
+const http = require("http");
 
 var indexRouter = require("./routes/index");
 
@@ -12,7 +13,8 @@ var usersRouter = require("./routes/user");
 var taskRouter = require("./routes/task");
 var friendsRouter = require("./routes/friend");
 var app = express();
-
+const server = http.createServer(app);
+server.maxConnections = 100;
 //session test route
 var testRouter = require("./routes/test");
 
