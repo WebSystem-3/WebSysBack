@@ -19,7 +19,6 @@ module.exports = {
   findFriendsByAccount: async (req, res) => {
     req.connection.setTimeout(60 * 15 * 1000);
     const { account } = req.params;
-    console.log(account);
     if (!account) {
       return res.status(400).json({
         message: "사용자 계정이 존재하지 않습니다.",
@@ -27,7 +26,6 @@ module.exports = {
     }
     try {
       const result = await FriendService.findFriendsByAccount(account);
-      console.log(result);
       if (!result) {
         return res.status(400).json({
           message: "존재하지 않는 유저입니다.",
