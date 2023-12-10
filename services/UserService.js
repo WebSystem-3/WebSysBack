@@ -36,7 +36,8 @@ module.exports = {
   updateUser: async (user_id, password, name) => {
     try {
       const db = await conn.getConnection();
-      const param = [password, name, user_id];
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const param = [hashedPassword, name, user_id];
       const user = await db.query(UserModel.updateUser, param);
       db.release();
       return user[0].affectedRows;
