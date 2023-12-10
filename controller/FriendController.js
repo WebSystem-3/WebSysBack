@@ -58,10 +58,20 @@ module.exports = {
           message: "유저 아이디를 입력해주세요.",
         });
       }
-      const result = await FriendService.createFriend(user_id1, user_id2);
-      if (result) {
-        return res.status(201).json({
-          message: "친구가 추가되었습니다.",
+      const isExistFriend = await FriendService.findFriendsByUserId1AndUserId2(
+        user_id1,
+        user_id2
+      );
+      if (!isExistFriend) {
+        const result = await FriendService.createFriend(user_id1, user_id2);
+        if (result) {
+          return res.status(201).json({
+            message: "친구가 추가되었습니다.",
+          });
+        }
+      } else {
+        return res.status(400).json({
+          message: "이미 친구입니다.",
         });
       }
     } catch (err) {
