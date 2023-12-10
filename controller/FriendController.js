@@ -40,7 +40,6 @@ module.exports = {
     req.connection.setTimeout(60 * 15 * 1000);
     const { user_id1 } = req.params;
     const { user_id2 } = req.body;
-    console.log(user_id1, user_id2);
     if (!user_id1) {
       return res.status(400).json({
         message: "존재하지 않는 유저 아이디입니다.",
