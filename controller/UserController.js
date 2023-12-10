@@ -197,7 +197,7 @@ module.exports = {
       });
     }
     try {
-      const result = UserService.getUserInfo(user_id);
+      const result = await UserService.getUserInfo(user_id);
 
       if (result) {
         //로그아웃 성공 시

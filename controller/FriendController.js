@@ -82,7 +82,7 @@ module.exports = {
       });
     }
     try {
-      const result = FriendService.deleteFriend(user_id1, user_id2);
+      const result = await FriendService.deleteFriend(user_id1, user_id2);
       if (result) {
         return res.status(200).json({
           message: "친구가 삭제되었습니다.",
